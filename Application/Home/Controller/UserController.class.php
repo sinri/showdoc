@@ -17,7 +17,8 @@ class UserController extends BaseController {
 			if (C('CloseVerify') || $v_code && $v_code == session('v_code') ) {
 				if ( $password != '' && $password == $confirm_password) {
 			  		if ( ! D("User")->isExist($username) ) {
-						if(preg_match('/^[a-z]+[0-9]*@leqee\.com$/',$username)){
+						//if(preg_match('/^[a-z]+[0-9]*@leqee\.com$/',$username)){
+			  			if($this->verifyWithLeqeeAA($username,$password)){
 							$ret = D("User")->register($username,$password);
 							if ($ret) {
 					      			$this->message(L('register_succeeded'),U('Home/User/login'));					    
@@ -25,7 +26,6 @@ class UserController extends BaseController {
 						  		$this->message(L('username_or_password_incorrect'));
 							}
 						}else{
-							$this->message('似乎不是乐其的邮箱么，咕嘿嘿。');
 						}
 			  		}else{
 			  			$this->message(L('username_exists'));
@@ -159,5 +159,43 @@ class UserController extends BaseController {
 		cookie('cookie_token',NULL);
 		session(null);
 		$this->message(L('logout_succeeded'),U('Home/index/index'));
+	}
+
+	private function verifyWithLeqeeAA($username,$password){
+		$url=C("AA_URL");
+		$fields=array(
+			"act"=>"validate_login",
+			"data"=>array(
+				'username'=>$username,
+				'up_checksum'=>md5($username.'#'.md5($password)),
+				'ip'=>'',
+			)
+		);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			// 'W-ACCESS-TOKEN: '.$access_token,
+			'Content-Type: application/json'
+		));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+		// curl_setopt($ch, CURLOPT_COOKIE, implode(';', $cookies_items));
+		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
+
+		if($method=='PUT'){
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+		}elseif($method=='DELETE'){
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+		}
+
+		$data = curl_exec($ch);
+		curl_close($ch);
+
+		if($data && isset($data['result']) && $data['result']==='OK'){
+			return true;
+		}
+		return false;
 	}
 }
