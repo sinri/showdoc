@@ -1,4 +1,8 @@
-﻿## 中文版教程：http://www.showdoc.cc/help
+# ShowDoc 乐其魔改版
+  
+  许可证维持原状，商标（如果存在）为原所有人所有。代码变更详见GitHub Compare。
+  
+## 中文版教程：http://www.showdoc.cc/help
 
 ### What is ShowDoc ?
 
