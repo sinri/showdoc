@@ -18,7 +18,7 @@ class UserController extends BaseController {
 				if ( $password != '' && $password == $confirm_password) {
 			  		if ( ! D("User")->isExist($username) ) {
 						//if(preg_match('/^[a-z]+[0-9]*@leqee\.com$/',$username)){
-			  			if($this->verifyWithLeqeeAA($username,$password)){
+			  			if($this->verifyWithLeqeeAA($username,$password,$error)){
 							$ret = D("User")->register($username,$password);
 							if ($ret) {
 					      			$this->message(L('register_succeeded'),U('Home/User/login'));					    
@@ -26,7 +26,7 @@ class UserController extends BaseController {
 						  		$this->message(L('username_or_password_incorrect'));
 							}
 						}else{
-							$this->message('麻烦用LEQEE ERP账户注册Orz。');
+							$this->message('麻烦用LEQEE ERP账户注册Orz。报错：'.$error);
 						}
 			  		}else{
 			  			$this->message(L('username_exists'));
@@ -162,7 +162,7 @@ class UserController extends BaseController {
 		$this->message(L('logout_succeeded'),U('Home/index/index'));
 	}
 
-	private function verifyWithLeqeeAA($username,$password){
+	private function verifyWithLeqeeAA($username,$password,&$error=''){
 		$url=C("AA_URL");
 		$fields=array(
 			"act"=>"validate_login",
@@ -194,8 +194,28 @@ class UserController extends BaseController {
 		$data = curl_exec($ch);
 		curl_close($ch);
 
-		if($data && isset($data['result']) && $data['result']==='OK'){
+		if($data){
+			$data=json_decode($data,true);
+			if(!is_array($data)){
+				$error='RESPONSE cannot be parsed into standard JSON.';
+				return false;
+			}
+			if(!isset($data['result'])){
+				$error='RESPONSE has not RESULT field.';
+				return false;
+			}
+		}else{
+			$error='EMPTY AA RESPONSE. CALL SINRI FOR HELP.';
+			return false;
+		}
+
+		if($data['result']==='OK'){
 			return true;
+		}
+		if(isset($data['data'])){
+			$error=$data['data'];
+		}else{
+			$error='ERROR messages is not given.';
 		}
 		return false;
 	}
