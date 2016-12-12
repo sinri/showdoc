@@ -26,6 +26,7 @@ class UserController extends BaseController {
 						  		$this->message(L('username_or_password_incorrect'));
 							}
 						}else{
+							$this->message('麻烦用LEQEE ERP账户注册Orz。');
 						}
 			  		}else{
 			  			$this->message(L('username_exists'));
