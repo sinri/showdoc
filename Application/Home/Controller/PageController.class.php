@@ -293,7 +293,7 @@ class PageController extends BaseController {
         $file_name=uniqid().'_'. basename($_FILES['upload_file']['name']);
         $uploadfile = $upload_dir .'/'.$file_name;
 
-        $uploadfile_max_size=30000;
+        $uploadfile_max_size=102400;
         if($_FILES['upload_file']['size']>$uploadfile_max_size){
             echo "FILE Size: ".$_FILES['upload_file']['size']." OVER ".$uploadfile_max_size;
             die();

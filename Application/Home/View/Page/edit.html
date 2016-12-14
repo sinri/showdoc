@@ -131,9 +131,9 @@
 <div style="background-color: #eee;">
     <form action="index.php?s=/home/page/upload" method="POST" target='upload_file_iframe' enctype="multipart/form-data">
         <p>
-            志杰说要上传PDF，我就试试：
+            志杰说要上传附件。100M限定。
             <!-- MAX_FILE_SIZE must precede the file input field -->
-            <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+            <input type="hidden" name="MAX_FILE_SIZE" value="102400" />
             <input type="file" name="upload_file">
             <button>跪求上传</button>
         </p>
