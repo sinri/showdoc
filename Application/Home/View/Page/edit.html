@@ -128,6 +128,17 @@
     </div>
  </div>
 
+<div style="background-color: #eee;">
+    <form action="index.php?s=/home/page/upload" method="POST" target='upload_file_iframe' enctype="multipart/form-data">
+        <p>
+            志杰说要上传PDF，我就试试：
+            <input type="file" name="upload_file">
+            <button>跪求上传</button>
+        </p>
+    </form>
+    <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;"></iframe>
+</div>
+
 <include file="Common/footer" />
 <script src="__PUBLIC__/js/jquery.bootstrap-growl.min.js"></script>
 <script src="__PUBLIC__/js/jquery.hotkeys.js"></script>

@@ -286,4 +286,9 @@ class PageController extends BaseController {
         $this->assign("history_page_content" , $history_page_content);
         $this->display(); 
     }
+
+    // 大鲵的魔改
+    public function upload(){
+        
+    }
 }
