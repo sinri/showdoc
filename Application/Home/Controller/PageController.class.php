@@ -301,7 +301,7 @@ class PageController extends BaseController {
 
         if (move_uploaded_file($_FILES['upload_file']['tmp_name'], $uploadfile)) {
             //well
-            echo "FILE LINK: ".$_SERVER['SCRIPT_URL'].'?s=/home/page/download&filename='.urlencode($file_name);
+            echo "FILE LINK: ".$_SERVER['SCRIPT_URI'].'?s=/home/page/download&filename='.urlencode($file_name);
         } else {
             echo "<p>文件不正常……</p>";
             print_r($_FILES);
