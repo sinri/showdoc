@@ -29,20 +29,19 @@
 
 <body>
 <div class="row header  ">
-    <div class="right pull-right">
-        <ul class="inline pull-right">
-            <if condition="$login_user">
-                <li ><a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a></li>
-            <else />
-                <li ><a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a></li>
-            </if>
-        </ul>
-    </div>
+    
 </div>
 
 <div id="dowebok">
     <h1>LEQEE SHOWDOC</h1>
-    <h2>首页效果征集中</h2>    
+    <h2>首页效果征集中</h2> 
+    <div>
+        <if condition="$login_user">
+            <li ><a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a></li>
+        <else />
+            <li ><a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a></li>
+        </if>
+    </div>   
 </div>
 <include file="Common/footer" />
 
