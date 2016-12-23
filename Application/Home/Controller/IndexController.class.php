@@ -22,4 +22,10 @@ class IndexController extends BaseController {
 
         $this->display();
     }
+    public function index2(){
+        $this->checkLogin(false);
+        $login_user = session("login_user");
+        $this->assign("login_user" ,$login_user);
+        $this->display();
+    }
 }
