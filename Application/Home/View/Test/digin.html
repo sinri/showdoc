@@ -13,7 +13,7 @@
 	font-size: 1em;
 }
 .member_type_span {
-	display: none;
+	font-size: 0.5em;
 }
 .member_group_span {
 	display: none;
@@ -27,16 +27,16 @@
 		<p>{$item.item_description}</p>
 		<p>Created {$item.addtime} By {$item.owner_username}, Last Updated {$item.last_update_time}</p>
 		<p>
-			<span>MEMBERS:</span>
-			<br>
-			<foreach name="item.members" item="member">
+			MEMBERS:
+		</p>
+		<foreach name="item.members" item="member">
+		<p>
 			<span class="member_uid_span">{$member.uid}</span>
 			<span class="member_username_span">{$member.username}</span>
 			<span class="member_type_span"> {$member.type} </span>
 			<span class="member_group_span"> {$member.member_group_id} </span>
-			<span>&nbsp;</span>
-			</foreach>
 		</p>
+		</foreach>
 	</div>
 	</foreach>
 </div>
