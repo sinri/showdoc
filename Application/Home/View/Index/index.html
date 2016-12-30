@@ -10,6 +10,11 @@
         <if condition="$login_user">
             Welcome, {$login_user.username}.
             <a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a>
+            <if condition="$login_user=='showdoc'">
+            <a href="{:U('Home/Admin/users')}">用户管理</a>
+            <a href="{:U('Home/Admin/digin')}">项目管理</a>
+            <a href="{:U('Home/Test/view_inside')}">数据管理</a>
+            </if>
         <else />
             <a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a>
         </if>
