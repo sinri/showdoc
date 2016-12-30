@@ -22,10 +22,16 @@ class TestController extends BaseController {
     	echo PHP_EOL;
     }
 
-    public function runDB(){
+    public function view_inside(){
     	$login_user = $this->checkLogin(); 
-
-    	$result=D()->query('.tables');
-    	$this->show_debug_data('show tables',$result);
+        if($login_user['username']=='showdoc') {
+            $sql=I("query");
+            if(!empty($sql)){
+        	   $result=D()->query($sql);
+        	   $this->show_debug_data('show tables',$result);
+            }else{
+                $this->display();
+            }
+        }
     }
 }

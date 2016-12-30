@@ -1,0 +1,32 @@
+<include file="Common/header" />
+<style type="text/css">
+	#sql_ta {
+		width:80%;
+		height: 100px;
+	}
+	#sql_result{
+		margin-top: 10px;
+		width:80%;
+		height: 300px;
+	}
+</style>
+<script type="text/javascript">
+	function query_it(){
+		let query=$("#sql_ta").val();
+		if(!query){
+			return false;
+		}
+		return true;
+	}
+</script>
+<div>
+	<h1>View Inside</h1>	
+	<form target='sql_result' method="POST">
+		<textarea id="sql_ta" name="query"></textarea>
+		<button id="sql_btn" onclick="query_it()">GO</button>
+	</form>
+	<iframe name="sql_result" id="sql_result">
+		
+	</iframe>
+</div>
+<include file="Common/footer" />
