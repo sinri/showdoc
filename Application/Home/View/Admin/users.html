@@ -1,0 +1,56 @@
+<include file="Common/header" />
+<style type="text/css">
+	#container {
+		margin: 10px;
+	}
+	table {
+		border-collapse: collapse;
+	}
+	table th {
+		padding: 2px;
+		background-color: blue;
+		color: white;
+		border: 1px solid black;
+	}
+	table td {
+		padding: 2px;
+		text-align: center;
+		border: 1px solid black;
+	}
+</style>
+<div id="container">
+	<h1>Users</h1>
+	<table>
+		<tr>
+			<th>用户ID</th>
+			<th>用户名</th>
+			<th>用户组ID</th>
+			<!-- <th>name</th> -->
+			<!-- <th>avatar</th> -->
+			<!-- <th>avatar_small</th> -->
+			<th>email</th>
+			<!-- <th>password</th> -->
+			<!-- <th>cookie_token</th> -->
+			<!-- <th>cookie_token_expire</th> -->
+			<th>reg_time</th>
+			<!-- <th>last_login_time</th> -->
+		</tr>
+		<foreach name="users" item="user">
+		<tr>
+			<td>{$user.uid}</td>
+			<td>{$user.username}</td>
+			<td>{$user.groupid}</td>
+			<!-- <td>{$user.name}</td> -->
+			<!-- <td>{$user.avatar}</td> -->
+			<!-- <td>{$user.avatar_small}</td> -->
+			<td>{$user.email}</td>
+			<!-- <td>{$user.password}</td> -->
+			<!-- <td>{$user.cookie_token}</td> -->
+			<!-- <td>{$user.cookie_token_expire}</td> -->
+			<td>{$user.reg_time}</td>
+			<!-- <td>{$user.last_login_time}</td> -->
+		</tr>
+		</foreach>
+	</table>
+</div>
+<include file="Common/footer" />

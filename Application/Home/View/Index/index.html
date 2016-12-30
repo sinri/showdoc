@@ -1,49 +1,23 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
- <meta charset="UTF-8">
-<title>ShowDoc</title>
- <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css">
-
- <link rel="stylesheet" href="__PUBLIC__/css/jquery.fullPage.css">
- <style>
-.section { text-align: center; font: 30px "Microsoft Yahei"; color: #fff;}
-.header{
- padding-right: 100px;
- padding-top: 30px;
- font-size: 18px; 
- position: fixed;
-    right: 0;
-    left: 0;
-    z-index: 1030;
-    margin-bottom: 0;
-}
-.header a {
-    /*color: white;*/
-    font-size: 12px;
-    font-weight: bold;
-}
-</style>
+    <meta charset="utf-8">
+    <title>ShowDoc For Leqee</title>
 </head>
-
 <body>
-<div class="row header  ">
-    
-</div>
-
-<div id="dowebok">
-    <h1>LEQEE SHOWDOC</h1>
-    <h2>首页效果征集中</h2> 
+    <h1>Leqee ShowDoc</h1>
     <div>
         <if condition="$login_user">
-            <li ><a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a></li>
+            Welcome, {$login_user.username}.
+            <a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a>
+            <if condition="$login_user.username eq 'showdoc'">
+            <a href="{:U('Home/Admin/users')}">用户管理</a>
+            <a href="{:U('Home/Admin/digin')}">项目管理</a>
+            <a href="{:U('Home/Test/view_inside')}">数据管理</a>
+            </if>
         <else />
-            <li ><a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a></li>
+            <a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a>
         </if>
-    </div>   
-</div>
-<include file="Common/footer" />
-
+    </div>
 </body>
 </html>
