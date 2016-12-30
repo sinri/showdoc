@@ -38,7 +38,7 @@ class TestController extends BaseController {
     public function digin(){
         $sql="SELECT 
             item.item_id,item.item_name,item.item_description,
-            item.add_time,item.last_update_time,item.item_type,
+            item.addtime,item.last_update_time,item.item_type,
             item.uid,item.username
         FROM item 
         ";
@@ -50,7 +50,7 @@ class TestController extends BaseController {
                     'item_id'=>$item['item_id'],
                     'item_name'=>$item['item_name'],
                     'item_description'=>$item['item_description'],
-                    'add_time'=>$item['add_time'],
+                    'addtime'=>$item['addtime'],
                     'last_update_time'=>$item['last_update_time'],
                     'item_type'=>$item['item_type'],
                     'owner_uid'=>$item['uid'],
