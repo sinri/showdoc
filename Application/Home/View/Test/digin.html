@@ -1,0 +1,38 @@
+<include file="Common/header" />
+<style type="text/css">
+.member_uid_span {
+	font-size: 0.5em;
+}
+.member_username_span {
+	font-size: 1em;
+}
+.member_type_span {
+	display: none;
+}
+.member_group_span {
+	display: none;
+}
+</style>
+<div id="container">
+	<h1>Items</h1>
+	<foreach name="items" item="item">
+	<div class='item_box'>
+		<h3>#{$item.item_id} {$item.item_name} [TYPE: {$item.item_type}]</h3>
+		<p>{$item.item_description}</p>
+		<p>Created {$item.addtime} By {$item.owner_username}, Last Updated {$item.last_update_time}</p>
+		<p>
+			MEMBERS:<br>
+			<foreach name="item.members" item="member">
+			[
+			<span class="member_uid_span">{$member.uid}</span>
+			<span class="member_username_span">{$member.username}</span>
+			<span class="member_type_span"> {$member.type} </span>
+			<span class="member_group_span"> {$member.member_group_id} </span>
+			]
+			&nbsp;
+			</foreach>
+		</p>
+	</div>
+	</foreach>
+</div>
+<include file="Common/footer" />
