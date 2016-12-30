@@ -25,7 +25,7 @@ class TestController extends BaseController {
     public function runDB(){
     	$login_user = $this->checkLogin(); 
 
-    	$result=D()->query('show tables');
+    	$result=D()->query('.tables');
     	$this->show_debug_data('show tables',$result);
     }
 }
