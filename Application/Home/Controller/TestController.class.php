@@ -50,8 +50,8 @@ class TestController extends BaseController {
                     'item_id'=>$item['item_id'],
                     'item_name'=>$item['item_name'],
                     'item_description'=>$item['item_description'],
-                    'addtime'=>$item['addtime'],
-                    'last_update_time'=>$item['last_update_time'],
+                    'addtime'=>date('Y-m-d H:i:s',$item['addtime']),
+                    'last_update_time'=>($item['last_update_time']!=0?date('Y-m-d H:i:s',$item['last_update_time']):'-'),
                     'item_type'=>$item['item_type'],
                     'owner_uid'=>$item['uid'],
                     'owner_username'=>$item['username'],
@@ -80,6 +80,8 @@ class TestController extends BaseController {
                 }
             }
         }
-        $this->show_debug_data('All items',$items);
+        // $this->show_debug_data('All items',$items);
+        $this->assign('items',$items);
+        $this->display();
     }
 }
