@@ -70,12 +70,10 @@ class TestController extends BaseController {
                     foreach ($members as $member_index => $member) {
                         if(!isset($items[$item['item_id']]['members'][$member['uid']])){
                             $items[$item['item_id']]['members'][$member['uid']]=array(
-                                $items[$item['item_id']]['members'][$member['uid']][$member['uid']]=array(
-                                    'uid'=>$member['uid'],
-                                    'username'=>$member['username'],
-                                    'type'=>'member',
-                                    'member_group_id'=>$member['member_group_id'],
-                                );
+                                'uid'=>$member['uid'],
+                                'username'=>$member['username'],
+                                'type'=>'member',
+                                'member_group_id'=>$member['member_group_id'],
                             );
                         }
                     }
