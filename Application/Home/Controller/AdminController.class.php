@@ -17,6 +17,10 @@ class AdminController extends BaseController {
 		if(empty($users)){
 			$this->message('没有用户。那你是谁啊。');
 		}else{
+			foreach ($users as $key => $value) {
+				$users[$key]['reg_time']=date('Y-m-d H:i:s',$value['reg_time']);
+				$users[$key]['last_login_time']=date('Y-m-d H:i:s',$value['last_login_time']);
+			}
 			$this->assign('users',$users);
 			$this->display();
 		}
