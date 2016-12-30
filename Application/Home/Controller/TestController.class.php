@@ -80,6 +80,6 @@ class TestController extends BaseController {
                 }
             }
         }
-        print_r($items);
+        $this->show_debug_data('All items',$items);
     }
 }
