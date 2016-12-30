@@ -1,5 +1,11 @@
 <include file="Common/header" />
 <style type="text/css">
+#container{
+	margin:10px;
+}
+.item_box{
+	margin-top: 1px;
+}
 .member_uid_span {
 	font-size: 0.5em;
 }
@@ -21,15 +27,14 @@
 		<p>{$item.item_description}</p>
 		<p>Created {$item.addtime} By {$item.owner_username}, Last Updated {$item.last_update_time}</p>
 		<p>
-			MEMBERS:<br>
+			<span>MEMBERS:</span>
+			<br>
 			<foreach name="item.members" item="member">
-			[
 			<span class="member_uid_span">{$member.uid}</span>
 			<span class="member_username_span">{$member.username}</span>
 			<span class="member_type_span"> {$member.type} </span>
 			<span class="member_group_span"> {$member.member_group_id} </span>
-			]
-			&nbsp;
+			<span>&nbsp;</span>
 			</foreach>
 		</p>
 	</div>
