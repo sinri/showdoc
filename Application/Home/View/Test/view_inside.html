@@ -1,5 +1,8 @@
 <include file="Common/header" />
 <style type="text/css">
+	#container {
+		margin:10px;
+	}
 	#sql_ta {
 		width:80%;
 		height: 100px;
@@ -19,7 +22,7 @@
 		return true;
 	}
 </script>
-<div>
+<div id='container'>
 	<h1>View Inside</h1>	
 	<form target='sql_result' method="POST">
 		<textarea id="sql_ta" name="query"></textarea>
