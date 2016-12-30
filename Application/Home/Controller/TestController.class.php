@@ -21,4 +21,11 @@ class TestController extends BaseController {
     	echo "</pre>";
     	echo PHP_EOL;
     }
+
+    public function runDB(){
+    	$login_user = $this->checkLogin(); 
+
+    	$result=D()->query('show tables');
+    	$this->show_debug_data('show tables',$result);
+    }
 }
