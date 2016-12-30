@@ -10,7 +10,7 @@ class TestController extends BaseController {
         $items  = D("Item")->where("uid = '$login_user[uid]' or item_id in ( select item_id from ".C('DB_PREFIX')."item_member where uid = '$login_user[uid]' ) ")->select();
         $this->show_debug_data("user's items",$items);
 
-        $items  = D("Item")->where("1=1");
+        $items  = D("Item")->where("1=1")->select();
         $this->show_debug_data("all items",$items);
     }
 
