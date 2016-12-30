@@ -70,6 +70,14 @@
 
 ### TABLE `User_Token` 用户指纹表，因为没啥用就算了
 
+## 有了数据库相关情报我们就可以为所欲为了
+
+### 查看全部文档项目
+
+ShowDoc 本身是一个没有中心的平台化的东西，各自为政。
+但是对于公司内部管理应用的话其实是很坑的，我们需要开上帝视角的。
+我们可以用 [Digin Page](https://showdoc.leqee.com/index.php?s=/home/test/digin) 来观察全部的项目状况。至于用来做啥，等以后慢慢考虑。
+
 ----
   
 ## 中文版教程：http://www.showdoc.cc/help
