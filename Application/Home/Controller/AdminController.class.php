@@ -23,9 +23,11 @@ class AdminController extends BaseController {
 				$users[$key]['reg_time']=date('Y-m-d H:i:s',$value['reg_time']);
 				$users[$key]['last_login_time']=date('Y-m-d H:i:s',$value['last_login_time']);
 
-                $users[$key]['is_admin']=D("LeqeeAdmin")->isAdmin($value['username'],$level);
+                $is_admin=D("LeqeeAdmin")->isAdmin($value['username'],$level);
+                $users[$key]['is_admin']=($is_admin?'Y':'N');
                 $users[$key]['admin_level']=$level;
 			}
+            // var_dump($users);
 			$this->assign('users',$users);
 			$this->display();
 		}
