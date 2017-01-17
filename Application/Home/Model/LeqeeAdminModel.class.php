@@ -27,4 +27,13 @@ class LeqeeAdminModel extends BaseModel {
 			return true;
 		}
 	}
+
+	public function setAdmin($uid,$username){
+		$data=array('uid'=>$uid,'username'=>$username,'level'=>'admin');
+		$this->add($data);
+	}
+
+	public function unsetAdmin($uid){
+		$this->where('uid'=>$uid)->delete();
+	}
 }
