@@ -19,11 +19,12 @@ class LeqeeAdminModel extends BaseModel {
 		}
 	}
 
-	public function isAdmin($username){
+	public function isAdmin($username,$level=null){
 		$record=D("LeqeeAdmin")->where(array("username"=>$username))->find();
 		if(empty($record)){
 			return false;
 		}else{
+			$level=$record['level'];
 			return true;
 		}
 	}

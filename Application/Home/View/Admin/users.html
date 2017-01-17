@@ -34,6 +34,7 @@
 			<!-- <th>cookie_token_expire</th> -->
 			<th>reg_time</th>
 			<!-- <th>last_login_time</th> -->
+			<th>Admin</th>
 		</tr>
 		<foreach name="users" item="user">
 		<tr>
@@ -49,6 +50,12 @@
 			<!-- <td>{$user.cookie_token_expire}</td> -->
 			<td>{$user.reg_time}</td>
 			<!-- <td>{$user.last_login_time}</td> -->
+			<td>
+				<if condition="{$user.is_admin}">
+					{$user.is_admin}
+					{$user.admin_level}
+				</if>
+			</td>
 		</tr>
 		</foreach>
 	</table>

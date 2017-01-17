@@ -24,7 +24,7 @@ class TestController extends BaseController {
 
     public function view_inside(){
     	$login_user = $this->checkLogin(); 
-        if($login_user['username']=='showdoc') {
+        if(D("LeqeeAdmin")->isAdmin($login_user['username'])) {
             $sql=I("query");
             if(!empty($sql)){
         	   $result=D()->query($sql);
