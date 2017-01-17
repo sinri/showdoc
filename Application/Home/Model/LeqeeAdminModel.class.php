@@ -34,6 +34,6 @@ class LeqeeAdminModel extends BaseModel {
 	}
 
 	public function unsetAdmin($uid){
-		$this->where('uid'=>$uid)->delete();
+		$this->where(array('uid'=>$uid))->delete();
 	}
 }
