@@ -131,20 +131,22 @@
 <div style="background-color: #eee;">
     <form action="index.php?s=/home/page/upload" method="POST" target='upload_file_iframe' enctype="multipart/form-data">
         <p>
-            志杰说要上传附件。100M限定。
+            上传附件。100M限定。
             <!-- MAX_FILE_SIZE must precede the file input field -->
             <input type="hidden" name="MAX_FILE_SIZE" value="102400000" />
             <input type="file" name="upload_file">
-            <button>跪求上传</button>
+            <button>上传</button>
+            2017年1月17日更新后，可以全自动上传了。
         </p>
     </form>
-    <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;"></iframe>
+    <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;margin:auto;"></iframe>
     <script type="text/javascript">
     function sinriEditorInsert(url,name){
         if(!name && name!==0){
             name=url;
         }
         editormd.insertValue("["+name+"]("+url+")");
+        alert('附件链接已插入文本中！')
     }
     </script>
 </div>
