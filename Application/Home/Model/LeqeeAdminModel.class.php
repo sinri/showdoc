@@ -20,7 +20,7 @@ class LeqeeAdminModel extends BaseModel {
 	}
 
 	public function isAdmin($username){
-		$record=D("LeqeeAdmin")->where(array("username"=>$un))->find();
+		$record=D("LeqeeAdmin")->where(array("username"=>$username))->find();
 		if(empty($record)){
 			return false;
 		}else{
