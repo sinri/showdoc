@@ -139,6 +139,14 @@
         </p>
     </form>
     <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;"></iframe>
+    <script type="text/javascript">
+    function sinriEditorInsert(url,name){
+        if(!name && name!==0){
+            name=url;
+        }
+        editormd.insertValue("["+name+"]("+url+")");
+    }
+    </script>
 </div>
 
 <include file="Common/footer" />
