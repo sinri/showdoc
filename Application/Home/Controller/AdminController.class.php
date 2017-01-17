@@ -5,7 +5,10 @@ class AdminController extends BaseController {
 	protected $login_user=false;
 	protected function _initialize(){
 		$this->login_user = $this->checkLogin(); 
-        if(!$this->login_user || $this->login_user['username']!='showdoc') {
+        if(!$this->login_user 
+            // || $this->login_user['username']!='showdoc'
+            || D("LeqeeAdmin")->isAdmin($this->login_user['username'])
+        ) {
         	$this->message('闲人莫入 (╯‵□′)╯︵┻━┻');
         	exit();
         }
