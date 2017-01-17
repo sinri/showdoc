@@ -20,8 +20,7 @@ class LeqeeAdminModel extends BaseModel {
 	}
 
 	public function isAdmin($username){
-		$un=\sqlite_escape_string($username);
-		$record=D("LeqeeAdmin")->where(" username='{$un}' ")->find();
+		$record=D("LeqeeAdmin")->where(array("username"=>$un))->find();
 		if(empty($record)){
 			return false;
 		}else{
