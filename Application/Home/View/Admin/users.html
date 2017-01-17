@@ -52,8 +52,10 @@
 			<!-- <td>{$user.last_login_time}</td> -->
 			<td>
 				<if condition="$user.is_admin">
-					{$user.is_admin}
+					AS
 					{$user.admin_level}
+				<else />
+					NOT
 				</if>
 			</td>
 		</tr>
