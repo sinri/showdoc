@@ -5,7 +5,7 @@ use Home\Model\BaseModel;
 class LeqeeAdminModel extends BaseModel {
 
 	public function _initialize(){
-		$sql="PRAGMA table_info(leqee_admin);"
+		$sql="PRAGMA table_info(leqee_admin);";
 		$result=D()->query($sql);
 		if(empty($result)){
 			$sql="CREATE TABLE leqee_admin(
