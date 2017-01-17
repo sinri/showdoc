@@ -13,9 +13,9 @@ class LeqeeAdminModel extends BaseModel {
 				username TEXT NOT NULL,
 				level TEXT NULL
 			);"
-			$D->execute($sql);
+			D()->execute($sql);
 			$sql="INSERT INTO leqee_admin(uid,username,level) values(1,'showdoc','admin');"
-			$D->query($sql);
+			D()->query($sql);
 		}
 	}
 
