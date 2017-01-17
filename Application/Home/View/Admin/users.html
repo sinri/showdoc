@@ -51,7 +51,7 @@
 			<td>{$user.reg_time}</td>
 			<!-- <td>{$user.last_login_time}</td> -->
 			<td>
-				<if condition="{$user.is_admin}">
+				<if condition="$user.is_admin">
 					{$user.is_admin}
 					{$user.admin_level}
 				</if>
