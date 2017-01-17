@@ -7,7 +7,7 @@ class AdminController extends BaseController {
 		$this->login_user = $this->checkLogin(); 
         if(!$this->login_user 
             // || $this->login_user['username']!='showdoc'
-            || D("LeqeeAdmin")->isAdmin($this->login_user['username'])
+            || !D("LeqeeAdmin")->isAdmin($this->login_user['username'])
         ) {
         	$this->message('闲人莫入 (╯‵□′)╯︵┻━┻');
         	exit();
