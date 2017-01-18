@@ -8,7 +8,7 @@ class AdminController extends BaseController {
         if($this->login_user && D("LeqeeAdmin")->isAdmin($this->login_user['uid'])) {
             //什么都有了
         }else{
-        	$this->message('闲人莫入 (╯‵□′)╯︵┻━┻'.' // '.json_encode($this->login_user));
+        	$this->message('闲人莫入 (╯‵□′)╯︵┻━┻');
         	exit();
         }
 	}
