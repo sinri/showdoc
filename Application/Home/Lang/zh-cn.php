@@ -154,7 +154,7 @@ return array(
     'close'=>'关闭',
     'finish'=>'完成',
     'api_test_title'=>'GET和POST测试',
-    'api_address_description'=>'接口地址(如：http://www.abc.com/api/login)',
+    'api_address_description'=>'接口地址(如：https://www.abc.com/api/login)',
     'api_address'=>'接口地址',
     'params_description'=>'参数(如：user_id=121&age=22&date=2016-06-02)',
     'params'=>'参数',
