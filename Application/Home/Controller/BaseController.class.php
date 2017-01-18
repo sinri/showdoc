@@ -110,8 +110,12 @@ class BaseController extends Controller {
 
 		$item = D("Item")->where("item_id = '%d' ",array($item_id))->find();
 		if ($item['password']) {
-			//跳转到输入访问密码框
-			header("location:".U("Home/item/pwd",array("item_id"=>$item_id,"refer_url"=>base64_encode($refer_url))));
+			if(D("LeqeeAdmin")->isAdmin($uid)){
+				//管理员随便观赏。
+			}else{
+				//跳转到输入访问密码框
+				header("location:".U("Home/item/pwd",array("item_id"=>$item_id,"refer_url"=>base64_encode($refer_url))));
+			}
 		}else{
 			session("visit_item_".$item_id , 1 );
 			return true;
