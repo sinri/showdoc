@@ -26,7 +26,7 @@ class IndexController extends BaseController {
         $this->checkLogin(false);
         $login_user = session("login_user");
         $this->assign("login_user" ,$login_user);
-        $this->assign("login_as_admin",D("LeqeeAdmin")->isAdmin($login_user['username']));
+        $this->assign("login_as_admin",D("LeqeeAdmin")->isAdmin($login_user['uid']));
         $this->display();
     }
 }

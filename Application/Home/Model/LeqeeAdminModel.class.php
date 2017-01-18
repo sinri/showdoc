@@ -19,9 +19,9 @@ class LeqeeAdminModel extends BaseModel {
 		}
 	}
 
-	public function isAdmin($username,&$level=null){
+	public function isAdmin($uid,&$level=null){
 		$level=null;
-		$record=D("LeqeeAdmin")->where(array("username"=>$username))->find();
+		$record=D("LeqeeAdmin")->where(array("uid"=>$uid))->find();
 		// echo $this->getLastSql();var_dump($record);
 		if(empty($record)){
 			return false;

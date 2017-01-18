@@ -5,7 +5,7 @@ class AdminController extends BaseController {
 	protected $login_user=false;
 	protected function _initialize(){
 		$this->login_user = $this->checkLogin(); 
-        if($this->login_user && D("LeqeeAdmin")->isAdmin($this->login_user['username'])) {
+        if($this->login_user && D("LeqeeAdmin")->isAdmin($this->login_user['uid'])) {
             //什么都有了
         }else{
         	$this->message('闲人莫入 (╯‵□′)╯︵┻━┻'.' // '.json_encode($this->login_user));
@@ -23,7 +23,7 @@ class AdminController extends BaseController {
 				$users[$key]['reg_time']=date('Y-m-d H:i:s',$value['reg_time']);
 				$users[$key]['last_login_time']=date('Y-m-d H:i:s',$value['last_login_time']);
 
-                $is_admin=D("LeqeeAdmin")->isAdmin($value['username'],$level);
+                $is_admin=D("LeqeeAdmin")->isAdmin($value['uid'],$level);
                 $users[$key]['is_admin']=($is_admin?'Y':'N');
                 $users[$key]['admin_level']=$level;
 			}

@@ -6,7 +6,7 @@ class ItemController extends BaseController {
     public function index(){
         $login_user = $this->checkLogin();  
         $where="uid = '$login_user[uid]' or item_id in ( select item_id from ".C('DB_PREFIX')."item_member where uid = '$login_user[uid]' ) ";
-        if(D("LeqeeAdmin")->isAdmin($login_user['username'])) {
+        if(D("LeqeeAdmin")->isAdmin($login_user['uid'])) {
             $where='1=1';
         }  
         $items  = D("Item")->where($where)->select();
