@@ -28,7 +28,7 @@ class TestController extends BaseController {
             $sql=I("query");
             $act=I("act");
             if(!empty($sql)){
-                if($act=='qeury'){
+                if($act=='query'){
                     $result=D()->query($sql);
                 }elseif($act=='execute'){
                     $result=D()->execute($sql);
