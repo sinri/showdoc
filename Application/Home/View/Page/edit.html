@@ -61,7 +61,7 @@
                 <li><a id="beautify-json" >{$Think.Lang.beautify_json}</a></li>
           </ul>
         </div>
-        <a href="http://runapi.showdoc.cc/" target="_blank" class="btn" tabindex="9" id="runapi">{$Think.Lang.http_test_api}</a>
+        <a href="https://runapi.showdoc.cc/" target="_blank" class="btn" tabindex="9" id="runapi">{$Think.Lang.http_test_api}</a>
     </div>
     <div id="editormd">
         <textarea id="page_content" style="display:none;" tabindex="10" >{$page.page_content}</textarea>
@@ -131,14 +131,44 @@
 <div style="background-color: #eee;">
     <form action="index.php?s=/home/page/upload" method="POST" target='upload_file_iframe' enctype="multipart/form-data">
         <p>
-            志杰说要上传附件。100M限定。
+            上传附件。100M限定。
             <!-- MAX_FILE_SIZE must precede the file input field -->
             <input type="hidden" name="MAX_FILE_SIZE" value="102400000" />
             <input type="file" name="upload_file">
-            <button>跪求上传</button>
+            <button>上传</button>
+            2017年1月17日更新后，可以全自动上传了。
         </p>
     </form>
-    <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;"></iframe>
+    <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;margin:auto;"></iframe>
+    <script type="text/javascript">
+    if (!String.prototype.endsWith) {
+        String.prototype.endsWith = function(searchString, position) {
+            var subjectString = this.toString();
+            if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.lastIndexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    }
+    function sinriEditorInsert(url,name){
+        if(!name && name!==0){
+            name=url;
+        }
+        let prefix = '';
+        if(url.toLowerCase().endsWith('png') 
+            || url.toLowerCase().endsWith('jpg') 
+            || url.toLowerCase().endsWith('jpeg')  
+            || url.toLowerCase().endsWith('bmp') 
+            || url.toLowerCase().endsWith('gif') 
+        ){
+            prefix='!'
+        }
+        editormd.insertValue(prefix+"["+name+"]("+url+")");
+        alert('附件链接已插入文本中！')
+    }
+    </script>
 </div>
 
 <include file="Common/footer" />

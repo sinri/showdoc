@@ -23,12 +23,19 @@ class TestController extends BaseController {
     }
 
     public function view_inside(){
-    	$login_user = $this->checkLogin(); 
-        if($login_user['username']=='showdoc') {
+        $login_user = $this->checkLogin(); 
+        if(D("LeqeeAdmin")->isAdmin($login_user['uid'])) {
             $sql=I("query");
+            $act=I("act");
             if(!empty($sql)){
-        	   $result=D()->query($sql);
-        	   $this->show_debug_data('show tables',$result);
+                if($act=='query'){
+                    $result=D()->query($sql);
+                }elseif($act=='execute'){
+                    $result=D()->execute($sql);
+                }else{
+                    $result="五福乱華";
+                }
+                $this->show_debug_data('show tables',$result);
             }else{
                 $this->display();
             }

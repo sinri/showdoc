@@ -27,6 +27,7 @@
 	<form target='sql_result' method="POST">
 		<textarea id="sql_ta" name="query"></textarea>
 		<button id="sql_btn" onclick="query_it()">GO</button>
+		<input type="hidden" name="act" value='query'　help-text='語句を実行したい場合、これをわかってみよう。'>
 	</form>
 	<iframe name="sql_result" id="sql_result">
 		

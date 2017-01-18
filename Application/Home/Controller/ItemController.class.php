@@ -6,7 +6,7 @@ class ItemController extends BaseController {
     public function index(){
         $login_user = $this->checkLogin();  
         $where="uid = '$login_user[uid]' or item_id in ( select item_id from ".C('DB_PREFIX')."item_member where uid = '$login_user[uid]' ) ";
-        if($login_user['username']=='showdoc') {
+        if(D("LeqeeAdmin")->isAdmin($login_user['uid'])) {
             $where='1=1';
         }  
         $items  = D("Item")->where($where)->select();
@@ -31,10 +31,10 @@ class ItemController extends BaseController {
             
         }
         if (LANG_SET == 'en-us') {
-            $help_url = "http://www.showdoc.cc/help-en";
+            $help_url = "https://www.showdoc.cc/help-en";
         }
         else{
-            $help_url = "http://www.showdoc.cc/help";
+            $help_url = "https://www.showdoc.cc/help";
         }
 
         $this->assign("help_url" , $help_url);
@@ -60,7 +60,7 @@ class ItemController extends BaseController {
             $item_type = I("item_type");
 
             if ($item_domain) {
-                $item = D("Item")->where("item_domain = '$item_domain' and item_id !='$item_id' ")->find();
+                $item = D("Item")->where("item_domain = '%s' and item_id !='%s' ",array($item_domain,$item_id))->find();
                 if ($item) {
                     //个性域名已经存在
                     $this->message(L('domain_already_exists'));
@@ -87,7 +87,7 @@ class ItemController extends BaseController {
                 }
                 return ;
             }
-                        if ($item_id > 0 ) {
+            if ($item_id > 0 ) {
                 $data = array(
                     "item_name" => $item_name ,
                     "item_domain" => $item_domain ,
@@ -138,7 +138,7 @@ class ItemController extends BaseController {
         $current_page_id = I("page_id/d");
         //判断个性域名
         if ($item_domain) {
-            $item = D("Item")->where("item_domain = '$item_domain' ")->find();
+            $item = D("Item")->where("item_domain = '%s'",array($item_domain))->find();
             if ($item['item_id']) {
                 $item_id = $item['item_id'] ;
             }
@@ -174,6 +174,7 @@ class ItemController extends BaseController {
             
         //是否有搜索词
         if ($keyword) {
+            $keyword = \SQLite3::escapeString($keyword) ;
             $pages = D("Page")->where("item_id = '$item_id' and ( page_title like '%{$keyword}%' or page_content like '%{$keyword}%' ) ")->order(" `s_number` asc  ")->field("page_id,author_uid,cat_id,page_title,addtime")->select();
         
         }else{
@@ -210,10 +211,10 @@ class ItemController extends BaseController {
         $ItemCreator = $this->checkItemCreator($uid , $item_id);
 
         if (LANG_SET == 'en-us') {
-            $help_url = "http://www.showdoc.cc/help-en";
+            $help_url = "https://www.showdoc.cc/help-en";
         }
         else{
-            $help_url = "http://www.showdoc.cc/help";
+            $help_url = "https://www.showdoc.cc/help";
         }
         
         $this->assign("help_url" , $help_url);
@@ -436,5 +437,13 @@ class ItemController extends BaseController {
         $this->sendResult($items);
     }
 
+    public function setting(){
+        $login_user = $this->checkLogin();
+        $item_id = I("item_id/d");  
+        $uid = $login_user['uid'] ;
+        $this->checkItemPermn($uid , $item_id) ; 
+        $this->assign("item_id",$item_id);
+        $this->display();
+    }
 
 }

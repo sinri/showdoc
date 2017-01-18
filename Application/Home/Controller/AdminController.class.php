@@ -5,7 +5,9 @@ class AdminController extends BaseController {
 	protected $login_user=false;
 	protected function _initialize(){
 		$this->login_user = $this->checkLogin(); 
-        if(!$this->login_user || $this->login_user['username']!='showdoc') {
+        if($this->login_user && D("LeqeeAdmin")->isAdmin($this->login_user['uid'])) {
+            //什么都有了
+        }else{
         	$this->message('闲人莫入 (╯‵□′)╯︵┻━┻');
         	exit();
         }
@@ -20,11 +22,26 @@ class AdminController extends BaseController {
 			foreach ($users as $key => $value) {
 				$users[$key]['reg_time']=date('Y-m-d H:i:s',$value['reg_time']);
 				$users[$key]['last_login_time']=date('Y-m-d H:i:s',$value['last_login_time']);
+
+                $is_admin=D("LeqeeAdmin")->isAdmin($value['uid'],$level);
+                $users[$key]['is_admin']=($is_admin?'Y':'N');
+                $users[$key]['admin_level']=$level;
 			}
+            // var_dump($users);
 			$this->assign('users',$users);
 			$this->display();
 		}
 	}
+    public function makeUserAsAdmin(){
+        $uid=I("uid");
+        D("LeqeeAdmin")->setAdmin($uid);
+        echo "OVER";
+    }
+    public function makeUserNotAdmin(){
+        $uid=I("uid");
+        D("LeqeeAdmin")->unsetAdmin($uid);
+        echo "OVER";
+    }
 	public function digin(){
         $sql="SELECT 
             item.item_id,item.item_name,item.item_description,
