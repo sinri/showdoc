@@ -112,6 +112,7 @@ class BaseController extends Controller {
 		if ($item['password']) {
 			if(D("LeqeeAdmin")->isAdmin($uid)){
 				//管理员随便观赏。
+				return true;
 			}else{
 				//跳转到输入访问密码框
 				header("location:".U("Home/item/pwd",array("item_id"=>$item_id,"refer_url"=>base64_encode($refer_url))));
