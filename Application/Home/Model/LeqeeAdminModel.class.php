@@ -31,12 +31,20 @@ class LeqeeAdminModel extends BaseModel {
 		}
 	}
 
-	public function setAdmin($uid,$username){
-		$data=array('uid'=>$uid,'username'=>$username,'level'=>'admin');
+	public function setAdmin($uid){
+		$user_info=D("User")->userInfo($uid);
+		if(empty($user_info)){
+			return false;
+		}
+		$data=array('uid'=>$uid,'username'=>$user_info['username'],'level'=>'admin');
 		$this->add($data);
 	}
 
 	public function unsetAdmin($uid){
+		$user_info=D("User")->userInfo($uid);
+		if(empty($user_info)){
+			return false;
+		}
 		$this->where(array('uid'=>$uid))->delete();
 	}
 }

@@ -32,6 +32,16 @@ class AdminController extends BaseController {
 			$this->display();
 		}
 	}
+    public function makeUserAsAdmin(){
+        $uid=I("uid");
+        D("LeqeeAdmin")->setAdmin($uid);
+        echo "OVER";
+    }
+    public function makeUserNotAdmin(){
+        $uid=I("uid");
+        D("LeqeeAdmin")->unsetAdmin($uid);
+        echo "OVER";
+    }
 	public function digin(){
         $sql="SELECT 
             item.item_id,item.item_name,item.item_description,

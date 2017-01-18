@@ -34,7 +34,8 @@
 			<!-- <th>cookie_token_expire</th> -->
 			<th>reg_time</th>
 			<!-- <th>last_login_time</th> -->
-			<th>Admin</th>
+			<th>管理权</th>
+			<th>操作</th>
 		</tr>
 		<foreach name="users" item="user">
 		<tr>
@@ -58,8 +59,41 @@
 					NOT
 				</if>
 			</td>
+			<td>
+				<if condition="$user.is_admin eq 'Y'">
+					<button onclick='makeUserNotAdmin("{$user.uid}")'>撤销管理权</button>
+				<else />
+					<button onclick='makeUserAsAdmin("{$user.uid}")'>赋予管理权</button>
+				</if>
+			</td>
 		</tr>
 		</foreach>
 	</table>
+	<literal>
+	<script type="text/javascript">
+		function makeUserNotAdmin(uid){
+			runAjax('./index.php?s=/home/admin/makeUserNotAdmin&uid='+encodeURIComponent(uid));
+		}
+		function makeUserAsAdmin(uid){
+			runAjax('./index.php?s=/home/admin/makeUserAsAdmin&uid='+encodeURIComponent(uid));
+		}
+		function runAjax(url){
+			$.ajax({
+				url:url,
+				method:'get',
+				dataType:'html'
+			}).done(function(res){
+				if(res==='OK'){
+					alert('done');
+					window.location.reload();
+				}else{
+					alert(res);
+				}
+			}).fail(function(){
+				alert('ajax failed');
+			})
+		}
+	</script>
+	</literal>
 </div>
 <include file="Common/footer" />
