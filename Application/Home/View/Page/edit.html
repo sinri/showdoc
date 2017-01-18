@@ -141,11 +141,30 @@
     </form>
     <iframe name='upload_file_iframe' style="display: block;width: 80%;height: 50px;border: none;margin:auto;"></iframe>
     <script type="text/javascript">
+    if (!String.prototype.endsWith) {
+        String.prototype.endsWith = function(searchString, position) {
+            var subjectString = this.toString();
+            if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.lastIndexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    }
     function sinriEditorInsert(url,name){
         if(!name && name!==0){
             name=url;
         }
-        editormd.insertValue("["+name+"]("+url+")");
+        let prefix = '';
+        if(url.toLowerCase().endsWith('png') 
+            || url.toLowerCase().endsWith('jpg') 
+            || url.toLowerCase().endsWith('jpeg')  
+            || url.toLowerCase().endsWith('bmp') 
+        ){
+            prefix='!'
+        }
+        editormd.insertValue(prefix+"["+name+"]("+url+")");
         alert('附件链接已插入文本中！')
     }
     </script>
