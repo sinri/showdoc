@@ -142,6 +142,26 @@ class UpdateController extends BaseController {
             }
         }
 
+        //创建options表
+        $sql = "CREATE TABLE IF NOT EXISTS `options` (
+        `option_id`  INTEGER PRIMARY KEY ,
+        `option_name` CHAR(200) NOT NULL UNIQUE ,
+        `option_value` CHAR(200) NOT NULL 
+        )";
+        D("UserToken")->execute($sql);
+
+        //创建item_token表
+        $sql = "CREATE TABLE IF NOT EXISTS `item_token` (
+        `id`  INTEGER PRIMARY KEY ,
+        `item_id` int(11) NOT NULL DEFAULT '0' ,
+        `api_key` CHAR(200) NOT NULL UNIQUE ,
+        `api_token` CHAR(200) NOT NULL ,
+        `addtime` int(11) NOT NULL DEFAULT '0' ,
+        `last_check_time` int(11) NOT NULL DEFAULT '0' 
+        )";
+        D("UserToken")->execute($sql);
+
+
 
         echo 'OK!';
     }
