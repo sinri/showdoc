@@ -45,6 +45,9 @@ class LeqeeAdminModel extends BaseModel {
 		if(empty($user_info)){
 			return false;
 		}
+		if($user_info['username']=='showdoc'){
+			return false;
+		}
 		$this->where(array('uid'=>$uid))->delete();
 	}
 }
