@@ -1,51 +1,68 @@
 <include file="Common/header" />
 <link rel="stylesheet" href="__PUBLIC__/css/item/index.css?v=1.2" />
-    <div class="container-narrow">
+<div class="container-narrow">
 
-      <div class="masthead">
-        <div class="btn-group pull-right">
-        <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
+  <div class="masthead">
+    <div class="btn-group pull-right">
+      <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
         {$Think.Lang.more}
         <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
+      </a>
+      <ul class="dropdown-menu">
         <!-- dropdown menu links -->
-          <li><a href="{:U('Home/User/setting')}">{$Think.Lang.personal_setting}</a></li>
-<!--           <li><a href="#share-home-modal"  data-toggle="modal">{$Think.Lang.share_home}</a></li>
- -->          <li><a href="https://github.com/star7th/showdoc/issues" target="_blank">{$Think.Lang.feedback}</a></li>
-          <li><a href="{:U('Home/index/index')}">{$Think.Lang.web_home}</a></li>
-          <li><a href="{:U('Home/User/exist')}">{$Think.Lang.logout}</a></li>
+        <li><a href="{:U('Home/User/setting')}">{$Think.Lang.personal_setting}</a></li>
+        <!-- <li><a href="#share-home-modal"  data-toggle="modal">{$Think.Lang.share_home}</a></li> -->
+        <li><a href="https://github.com/star7th/showdoc/issues" target="_blank">{$Think.Lang.feedback}</a></li>
+        <li><a href="{:U('Home/index/index')}">{$Think.Lang.web_home}</a></li>
+        <li><a href="{:U('Home/User/exist')}">{$Think.Lang.logout}</a></li>
+      </ul>
+    </div>
 
-        </ul>
-        </div>
+    <h3 class="muted"><img src="__PUBLIC__/logo/b_64.png" style="width:50px;height:50px;margin-bottom:15px;" alt="">ShowDoc 乐其魔改版</h3>
+  </div>
 
-        </ul>
-        <h3 class="muted"><img src="__PUBLIC__/logo/b_64.png" style="width:50px;height:50px;margin-bottom:15px;" alt="">ShowDoc 乐其魔改版</h3>
-      </div>
+  <hr>
 
-      <hr>
+  <div class="container-thumbnails">
+    <ul class="thumbnails">
+      <foreach name="items" item="item">
+        <li class="span3 text-center">
+          <a class="thumbnail" href="{:U('Home/Item/show',array('item_id'=>$item['item_id']))}" title="{$item.item_description}">
+            <p class="my-item">{$item.item_name}</p>
+          </a>
+        </li>     
+      </foreach>
 
+      <li class="span3 text-center">
+        <a class="thumbnail" href="{:U('Home/Item/add')}" title="{$Think.Lang.add_an_item}添加一个新项目">
+          <p class="my-item ">{$Think.Lang.new_item}&nbsp;<i class="icon-plus"></i></p>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <if condition="$login_as_admin">
+    <hr>
+    <div class="masthead">
+      <h3 class="muted"><img src="__PUBLIC__/logo/b_64.png" style="width:50px;height:50px;margin-bottom:15px;" alt="">管理区</h3>
+    </div>
     <div class="container-thumbnails">
       <ul class="thumbnails">
-
-        <foreach name="items" item="item">
-          <li class="span3 text-center">
-            <a class="thumbnail" href="{:U('Home/Item/show',array('item_id'=>$item['item_id']))}" title="{$item.item_description}">
-              <p class="my-item">{$item.item_name}</p>
-            </a>
-          </li>     
-        </foreach>
-
         <li class="span3 text-center">
-          <a class="thumbnail" href="{:U('Home/Item/add')}" title="{$Think.Lang.add_an_item}添加一个新项目">
-            <p class="my-item ">{$Think.Lang.new_item}&nbsp;<i class="icon-plus"></i></p>
+          <a class="thumbnail" href="{:U('Home/Admin/users')}" title="用户管理">
+            <p class="my-item">用户管理</p>
+          </a>
+          <a class="thumbnail" href="{:U('Home/Admin/digin')}" title="项目管理">
+            <p class="my-item">项目管理</p>
+          </a>
+          <a class="thumbnail" href="{:U('Home/Test/view_inside')}" title="数据管理">
+            <p class="my-item">数据管理</p>
           </a>
         </li>
       </ul>
     </div>
+  </if>
 
-
-    </div> <!-- /container -->
+</div> <!-- /container -->
 
 <!-- 分享项目框 -->
 <div class="modal hide fade" id="share-home-modal">
@@ -59,9 +76,6 @@
   </div>
 </div>
 
-
- <include file="Common/footer" />
- <script type="text/javascript">
-
-
- </script>
+<include file="Common/footer" />
+<script type="text/javascript">
+</script>

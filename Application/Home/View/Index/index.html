@@ -8,8 +8,8 @@
     <h1>Leqee ShowDoc</h1>
     <div>
         <if condition="$login_user">
+            <h3>Welcome, {$login_user.username}.</h3>
             <p>
-                Welcome, {$login_user.username}.
                 <a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a>
                 <a href="{:U('Home/User/setting')}">{$Think.Lang.personal_setting}</a>
                 <a href="{:U('Home/User/exist')}">{$Think.Lang.logout}</a>
