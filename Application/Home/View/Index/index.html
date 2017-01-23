@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Leqee ShowDoc</h1>
-    <div>
+    <div style="min-height:300px;">
         <if condition="$login_user">
             <h3>Welcome, {$login_user.username}.</h3>
             <p>
@@ -25,6 +25,9 @@
         <else />
             <a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a>
         </if>
+    </div>
+    <div style="padding-top: 5px;border-top: 1px solid lightgray;">
+        <p style="color:lightgray;">Copyright 2017 Sinri Edogawa, LEQEE.</p>
     </div>
 </body>
 </html>
