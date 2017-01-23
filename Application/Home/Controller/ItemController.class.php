@@ -16,6 +16,7 @@ class ItemController extends BaseController {
         $this->assign("items" , $items);
         $this->assign("login_user" , $login_user);
     	$this->assign("share_url" , $share_url);
+        $this->assign("login_as_admin",D("LeqeeAdmin")->isAdmin($login_user['uid']));
         $this->display();
     }
     //我公开的项目列表
