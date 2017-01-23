@@ -8,12 +8,19 @@
     <h1>Leqee ShowDoc</h1>
     <div>
         <if condition="$login_user">
-            Welcome, {$login_user.username}.
-            <a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a>
+            <p>
+                Welcome, {$login_user.username}.
+                <a href="{:U('Home/Item/index')}">{$Think.lang.my_item}</a>
+                <a href="{:U('Home/User/setting')}">{$Think.Lang.personal_setting}</a>
+                <a href="{:U('Home/User/exist')}">{$Think.Lang.logout}</a>
+            </p>
             <if condition="$login_as_admin">
-            <a href="{:U('Home/Admin/users')}">用户管理</a>
-            <a href="{:U('Home/Admin/digin')}">项目管理</a>
-            <a href="{:U('Home/Test/view_inside')}">数据管理</a>
+            <h3>Only admin knows</h3>
+            <p>
+                <a href="{:U('Home/Admin/users')}">用户管理</a>
+                <a href="{:U('Home/Admin/digin')}">项目管理</a>
+                <a href="{:U('Home/Test/view_inside')}">数据管理</a>
+            </p>
             </if>
         <else />
             <a href="{:U('Home/User/login')}">{$Think.lang.index_login_or_register}</a>
