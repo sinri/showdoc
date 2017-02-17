@@ -102,6 +102,7 @@ echo COPY BACK
 cp bak/config.php Application/Home/Conf
 cp bak/showdoc.db.php Sqlite
 echo done
+chmod -R 777 Sqlite
 ```
 
 ----

@@ -93,8 +93,8 @@ class AdminController extends BaseController {
     }
     public function resetUserPassword(){
         $uid=I("uid");
-        $password=I('password')?I('password'):md5('123456789');
-        D("User")->updatePwd($uid, $password);
+        $password=I('password')?I('password'):('123456789');//no need to hash here
+        D("User")->updatePwd($uid, $password);//hash here inside
         echo "OVER";
     }
 }
