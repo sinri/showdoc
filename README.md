@@ -79,6 +79,17 @@ ShowDoc 本身是一个没有中心的平台化的东西，各自为政。
 我们可以用 [Digin Page](https://showdoc.leqee.com/index.php?s=/home/test/digin) 来观察全部的项目状况。至于用来做啥，等以后慢慢考虑。
 
 ----
+
+# 魔改后的安装注意事项
+
+以下两个文件因为会被更改，干脆被我加上了sample后缀。
+```
+Application/Home/Conf/config.php
+Sqlite/showdoc.db.php
+```
+跑install之前要手动cp出来一份。
+
+----
   
 ## 中文版教程：http://www.showdoc.cc/help
 
