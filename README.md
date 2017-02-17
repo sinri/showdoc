@@ -89,6 +89,21 @@ Sqlite/showdoc.db.php
 ```
 跑install之前要手动cp出来一份。
 
+升级的话
+
+```
+mkdir -p bak
+cp -f Application/Home/Conf/config.php bak; 
+cp -f Sqlite/showdoc.db.php bak;
+git checkout Application/Home/Conf/config.php;
+git checkout Sqlite/showdoc.db.php;
+git pull
+echo COPY BACK
+cp bak/config.php Application/Home/Conf
+cp bak/showdoc.db.php Sqlite
+echo done
+```
+
 ----
   
 ## 中文版教程：http://www.showdoc.cc/help
