@@ -65,6 +65,8 @@
 				<else />
 					<button onclick='makeUserAsAdmin("{$user.uid}")'>赋予管理权</button>
 				</if>
+				&nbsp;&nbsp;
+				<button onclick='resetUserPassword("{$user.uid}")'>重置密码</button>
 			</td>
 		</tr>
 		</foreach>
@@ -79,6 +81,11 @@
 		}
 		function makeUserAsAdmin(uid){
 			runAjax('./index.php?s=/home/admin/makeUserAsAdmin&uid='+encodeURIComponent(uid));
+		}
+		function resetUserPassword(uid){
+			if(confirm('Really you want to reset the password of user['+uid+']?')){
+				runAjax('./index.php?s=/home/admin/resetUserPassword&uid='+encodeURIComponent(uid));
+			}
 		}
 		function runAjax(url){
 			$.ajax({

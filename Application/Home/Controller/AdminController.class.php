@@ -91,4 +91,12 @@ class AdminController extends BaseController {
         $this->assign('items',$items);
         $this->display();
     }
+    public function resetUserPassword($uid,$password=null){
+        $uid=I("uid");
+        if(empty($password)){
+            $password=md5('123456789');
+        }
+        D("User")->updatePwd($uid, $password);
+        echo "OVER";
+    }
 }
