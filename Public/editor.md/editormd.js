@@ -3863,6 +3863,22 @@
                     return el[0].outerHTML + text;
                 });
             }
+            else if (attrs === "filterXSS")
+            {
+                var tags = ['a','abbr','address',
+                'area','article','aside','audio','b','bdi','bdo','big','blockquote','br','caption','center','cite','code','col','colgroup','dd','del','details','div','dl','dt','em','font','footer','h1','h2','h3','h4','h5','h6','header','hr','i','img','ins','li','mark','nav','ol','p','pre','s','section','small','span','sub','sup','strong','table','tbody','td','tfoot','th','thead','tr','tt','u','ul','video','input'],
+                    tagAttrs = ['target','title','shape','coords','href','alt','autoplay','controls','loop','preload','src','dir','cite','align','valign','span','width','height','datetime','open','color','size','face','border','rowspan','colspan','style','class','id','name','type','checked','disabled'],
+                    whiteList = (function(){
+                        var result = {};
+                        for(var i=0,len=tags.length; i<len; i++){
+                            result[tags[i]] = tagAttrs;
+                        };
+                        return result;
+                    })();
+                html = filterXSS(html,{
+                    whiteList:whiteList
+                });
+            }
             else
             {
                 html = html.replace(htmlTagRegex, function($1, $2, $3, $4) {
@@ -4178,8 +4194,8 @@
     // 使用国外的CDN，加载速度有时会很慢，或者自定义URL
     // You can custom KaTeX load url.
     editormd.katexURL  = {
-        css : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min",
-        js  : "//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.3.0/katex.min"
+        css : "//cdn.staticfile.org/KaTeX/0.3.0/katex.min",
+        js  : "//cdn.staticfile.org/KaTeX/0.3.0/katex.min"
     };
     
     editormd.kaTeXLoaded = false;
@@ -4470,10 +4486,18 @@
         
         var eventType  = mouseEventType;
 
-        try {
-            document.createEvent("TouchEvent");
+        var userAgentInfo = navigator.userAgent;
+        var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                flag = false;
+                break;
+            }
+        }
+        if(!flag){
             eventType = touchEventType;
-        } catch(e) {}
+        }
 
         return eventType;
     };

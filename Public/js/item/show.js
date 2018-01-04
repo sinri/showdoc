@@ -19,10 +19,16 @@ $(function(){
         if ($(this).parent('.child-ul')) {
             $(this).parent('.child-ul').show();
             $(this).parent('.child-ul').parent('li').children("a").children('i').attr("class","icon-chevron-down");
+            if($(this).parent('.child-ul').parent().parent('.child-ul')){
+              $(this).parent('.child-ul').parent().parent('.child-ul').show(); 
+              $(this).parent('.child-ul').parent().parent('.child-ul').parent('li').children("a").children('i').attr("class","icon-chevron-down"); 
+            }
         };
-          if (page_id != '' && page_id !='#') {
-              change_page(page_id)
-          };
+        page_title = $(this).children("a")[0].innerText;
+        document.title = page_title + " - ShowDoc";
+        if (page_id != '' && page_id !='#') {
+            change_page(page_id)
+        };
       };
     })
   }
@@ -69,6 +75,9 @@ $(function(){
     $(".doc-left").css("width",'100%');
     $(".doc-left").css("height",'initial');
     $(".doc-left").css("min-height",'0px');
+    $(".doc-left").css("position",'static');
+    $(".doc-right").css("margin-top",'0px');
+    $(".doc-right").css("margin-left",'0px');
     $(".doc-right").removeClass("span12");
     $(".doc-head .right").hide();
     $(".page-edit-link").html('');
@@ -137,7 +146,7 @@ $(function(){
       //$("#page-content").attr("src" , iframe_url);
       $("#edit-link").attr("href" , base_url+"/home/page/edit/page_id/"+page_id);
       $("#copy-link").attr("href" , base_url+"/home/page/edit/item_id/"+item_id+"/copy_page_id/"+page_id);
-      $("#delete-link").attr("href" , base_url+"/home/page/delete/page_id/"+page_id);
+      $("#delete-link").data("page_id",page_id);
       
       var domain = item_domain ? item_domain : item_id ;
       var cur_page_url =  window.location.protocol +"//"+window.location.host+base_url+"/"+domain;
@@ -151,9 +160,9 @@ $(function(){
       var single_page_url = window.location.protocol +"//"+window.location.host+base_url+"/page/"+page_id;
       $("#share-single-link").html(single_page_url);
 
-      $("#qr-page-link").attr("src","?s=home/common/qrcode&size=3&url="+cur_page_url);
-      $("#qr-single-link").attr("src","?s=home/common/qrcode&size=3&url="+single_page_url);
-
+      $("#qr-page-link").attr("src","?s=home/common/qrcode&size=3&url="+encodeURIComponent(cur_page_url));
+      $("#qr-single-link").attr("src","?s=home/common/qrcode&size=3&url="+encodeURIComponent(single_page_url));
+      $(".show_page_info").data("page_id",page_id);
       var html = '<iframe id="page-content" width="100%" scrolling="yes"  height="100%" frameborder="0" style=" overflow:visible; height:100%;" name="main"  seamless ="seamless"src="'+iframe_url+'"></iframe>';
       $(".iframe_content").html(html);
       iFrameHeight();
@@ -219,19 +228,7 @@ function iFrameHeight() { 
   ifr.onload = function() {
       var iDoc = ifr.contentDocument || ifr.document;
       var height = calcPageHeight(iDoc);
-      ifr.style.height = height + 'px';
-
-      
-      if(!isMobile() && $(window).width() > 1000){
-        //调节左侧栏背景的最小高度
-        if(height >  document.body.clientHeight){
-          $(".doc-left").css("min-height",(height+60) + 'px');
-        }else{
-          $(".doc-left").css("min-height",'100%');
-        }  
-      }
-
-      
+      ifr.style.height = height + 'px'; 
   }
  }
 
@@ -252,8 +249,7 @@ function iFrameHeight() { 
     },
     // 删除
     "Ctrl+D": function() {
-      if (confirm(lang["confirm_to_delete"]))
-        location.href = $("#delete-link").attr('href');
+      $("#delete-link").click();
     },
     // 新建页面
     "Ctrl+F1": function() {
@@ -276,9 +272,107 @@ function iFrameHeight() { 
     });
   }
 
+  $(".show_page_info").click(function(){
+    var page_id =  $(this).data("page_id") ;
+    $.post(
+      DocConfig.server+"/api/page/info",
+      {"page_id":page_id},
+      function(data){
+        var html = "<p>最后编辑时间："+data.data.addtime+"</p><p>编辑人："+data.data.author_username+"</p>";
+         $.alert(html);
+      },
+      "json"
+
+      );
+    return false;
+  });
+
+  //删除页面
+  $("#delete-link").click(function(){
+    var page_id =  $(this).data("page_id") ;
+    $.confirm(lang["confirm_to_delete"],{},function(){
+      $.post(
+        DocConfig.server+"/api/page/delete",
+        {"page_id":page_id},
+        function(data){
+                  if (data.error_code == 0) {
+                    $.alert(lang["delete_success"],function(){
+                      window.location.reload();
+                    });
+                    
+                  }else{
+                    if (data.error_message) {
+                      $.alert(data.error_message);
+                    }else{
+                      $.alert(lang["delete_fail"]);
+                    }
+                    
+                  }
+          
+        },
+        "json"
+
+        );
+    });
+
+    return false;
+  });
+
+  $("#delete-link").click(function(){
+    var page_id =  $(this).data("page_id") ;
+    $.confirm(lang["confirm_to_delete"],{},function(){
+      $.post(
+        DocConfig.server+"/api/page/delete",
+        {"page_id":page_id},
+        function(data){
+                  if (data.error_code == 0) {
+                    $.alert(lang["delete_success"],function(){
+                      window.location.reload();
+                    });
+                    
+                  }else{
+                    if (data.error_message) {
+                      $.alert(data.error_message);
+                    }else{
+                      $.alert(lang["delete_fail"]);
+                    }
+                    
+                  }
+          
+        },
+        "json"
+
+        );
+    });
+
+    return false;
+  });
+    window.addEventListener('message', function(e){
+      if(e.origin != window.location.origin) return;
+      if (e.data.meessage_type != 'img_url') {
+        return ;
+      }
+     var img_url =e.data.img_url;
+      var json = {
+          "title": "", //相册标题
+          "id": 123, //相册id
+          "start": 0, //初始显示的图片序号，默认0
+          "data": [   //相册包含的图片，数组格式
+              {
+                "alt": "",
+                "pid": 666, //图片id
+                "src": img_url, //原图地址
+                "thumb": img_url //缩略图地址
+              }
+            ]
+          }
+        $.photos({
+          photos: json
+          ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        });
+  }, false);
+
 })
-
-
 
 
 

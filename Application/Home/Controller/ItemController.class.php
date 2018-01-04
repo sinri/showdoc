@@ -13,7 +13,6 @@ class ItemController extends BaseController {
         
         $share_url = get_domain().__APP__.'/uid/'.$login_user['uid'];
 
-        $this->assign("items" , $items);
         $this->assign("login_user" , $login_user);
     	$this->assign("share_url" , $share_url);
         $this->assign("login_as_admin",D("LeqeeAdmin")->isAdmin($login_user['uid']));
@@ -46,89 +45,7 @@ class ItemController extends BaseController {
     //新建项目
     public function add(){
         $login_user = $this->checkLogin();
-        $item_id = I("item_id/d");
-        if (!IS_POST) {
-          $item = D("Item")->where("item_id = '$item_id' ")->find();
-          $this->assign("item" , $item);
-          $this->display ();
-
-        }else{
-            $item_name = I("item_name");
-            $item_domain = I("item_domain") ? I("item_domain") : '';
-            $copy_item_id = I("copy_item_id");
-            $password = I("password");
-            $item_description = I("item_description");
-            $item_type = I("item_type");
-
-            if ($item_domain) {
-                $item = D("Item")->where("item_domain = '%s' and item_id !='%s' ",array($item_domain,$item_id))->find();
-                if ($item) {
-                    //个性域名已经存在
-                    $this->message(L('domain_already_exists'));
-                    return false;
-                }
-                if(!ctype_alnum($item_domain) ||  is_numeric($item_domain) ){
-                    //echo '个性域名只能是字母或数字的组合';exit;
-                    $this->message(L('item_domain_illegal'));
-                    return false;
-                }
-            }
-            
-            //如果是复制项目
-            if ($copy_item_id > 0) {
-                if (!$this->checkItemPermn($login_user['uid'] , $copy_item_id)) {
-                    $this->message(L('no_permissions'));
-                    return;
-                }
-                $ret = D("Item")->copy($copy_item_id,$login_user['uid'],$item_name,$item_description,$password,$item_domain);
-                if ($ret) {
-                    $this->message(L('operation_succeeded'),U('Home/Item/index'));              
-                }else{
-                    $this->message(L('operation_failed'),U('Home/Item/index'));
-                }
-                return ;
-            }
-            if ($item_id > 0 ) {
-                $data = array(
-                    "item_name" => $item_name ,
-                    "item_domain" => $item_domain ,
-                    "password" => $password ,
-                    "item_description" => $item_description ,
-                    );
-                $ret = D("Item")->where("item_id = '$item_id' ")->save($data);
-            }else{
-                $insert = array(
-                    "uid" => $login_user['uid'] ,
-                    "username" => $login_user['username'] ,
-                    "item_name" => $item_name ,
-                    "password" => $password ,
-                    "item_description" => $item_description ,
-                    "item_domain" => $item_domain ,
-                    "item_type" => $item_type ,
-                    "addtime" =>time()
-                    );
-                $item_id = D("Item")->add($insert);
-            }
-
-            if ($item_id) {
-                //如果是单页应用，则新建一个默认页
-                if ($item_type == 2 ) {
-                    $insert = array(
-                        'author_uid' => $login_user['uid'] ,
-                        'author_username' => $login_user['username'],
-                        "page_title" => $item_name ,
-                        "item_id" => $item_id ,
-                        "cat_id" => 0 ,
-                        "page_content" => '欢迎使用showdoc。点击右上方的编辑按钮进行编辑吧！' ,
-                        "addtime" =>time()
-                        );
-                    D("Page")->add($insert);
-                }
-                $this->message(L('operation_succeeded'),U('Home/Item/index'));              
-            }else{
-                $this->message(L('operation_failed'),U('Home/Item/index'));
-            }
-        }
+        $this->display ();
     }
 
     //根据项目类型展示项目
@@ -341,101 +258,22 @@ class ItemController extends BaseController {
     }
 
     //导出word
-    public function word(){
-        import("Vendor.Parsedown.Parsedown");
-        $Parsedown = new \Parsedown();
-        $item_id =  I("item_id/d");
+    public function export(){
         $login_user = $this->checkLogin();
-        if (!$this->checkItemPermn($login_user['uid'] , $item_id)) {
-            $this->message(L('no_permissions'));
-            return;
-        }
+        $item_id = I("item_id/d");  
+        $uid = $login_user['uid'] ;
+        $this->checkItemPermn($uid , $item_id) ; 
 
         $item = D("Item")->where("item_id = '$item_id' ")->find();
 
-        //获取所有父目录id为0的页面
-        $pages = D("Page")->where("cat_id = '0' and item_id = '$item_id' ")->order(" `s_number` asc  ")->select();
-        //获取所有二级目录
-        $catalogs = D("Catalog")->where("item_id = '$item_id' and level = 2  ")->order(" `s_number` asc  ")->select();
-        if ($catalogs) {
-            foreach ($catalogs as $key => &$catalog) {
-                //该二级目录下的所有子页面
-                $temp = D("Page")->where("cat_id = '$catalog[cat_id]' ")->order(" `s_number` asc  ")->select();
-                $catalog['pages'] = $temp ? $temp: array();
-
-                //该二级目录下的所有子目录
-                $temp = D("catalog")->where("parent_cat_id = '$catalog[cat_id]' ")->order(" `s_number` asc  ")->select();
-                $catalog['catalogs'] = $temp ? $temp: array();
-                if($catalog['catalogs']){
-                    //获取所有三级目录的子页面
-                    foreach ($catalog['catalogs'] as $key3 => &$catalog3) {
-                        //该二级目录下的所有子页面
-                        $temp = D("Page")->where("cat_id = '$catalog3[cat_id]' ")->order(" `s_number` asc  ")->select();
-                        $catalog3['pages'] = $temp ? $temp: array();
-                    }                        
-                }               
-            }
+        //对于单页项目，直接导出。对于普通项目，则让其选择目录
+        if ($item['item_type'] == 2 ) {
+            $url = 'server/index.php?s=/api/export/word&item_id='.$item_id ;
+            header("location:{$url}");
+        }else{
+            $this->assign("item_id",$item_id);
+            $this->display();
         }
-
-        $data = '';
-        $parent = 1;
-
-        if ($pages) {
-            foreach ($pages as $key => $value) {
-                $data .= "<h1>{$parent}、{$value['page_title']}</h1>";
-                $data .= '<div style="margin-left:20px;">';
-                    $data .= htmlspecialchars_decode($Parsedown->text($value['page_content']));
-                $data .= '</div>';
-                $parent ++;
-            }
-        }
-        //var_export($catalogs);
-        if ($catalogs) {
-            foreach ($catalogs as $key => $value) {
-                $data .= "<h1>{$parent}、{$value['cat_name']}</h1>";
-                $data .= '<div style="margin-left:20px;">';
-                    $child = 1 ;
-                    if ($value['pages']) {
-                        foreach ($value['pages'] as $page) {
-                            $data .= "<h2>{$parent}.{$child}、{$page['page_title']}</h2>";
-                            $data .= '<div style="margin-left:20px;">';
-                                $data .= htmlspecialchars_decode($Parsedown->text($page['page_content']));
-                            $data .= '</div>';
-                            $child ++;
-                        }
-                    }
-                    if ($value['catalogs']) {
-                        $parent2 = 1 ;
-                        foreach ($value['catalogs'] as $key3 => $value3) {
-                            $data .= "<h2>{$parent}.{$parent2}、{$value3['cat_name']}</h2>";
-                            $data .= '<div style="margin-left:20px;">';
-                                $child2 = 1 ;
-                                if ($value3['pages']) {
-                                    foreach ($value3['pages'] as $page3) {
-                                        $data .= "<h3>{$parent}.{$parent2}.{$child2}、{$page3['page_title']}</h3>";
-                                        $data .= '<div style="margin-left:30px;">';
-                                            $data .= htmlspecialchars_decode($Parsedown->text($page3['page_content']));
-                                        $data .= '</div>';
-                                        $child2 ++;
-                                    }
-                                }
-                            $data .= '</div>';
-                            $parent2 ++;
-                        }
-                    }
-                $data .= '</div>';
-                $parent ++;
-            }
-        }
-
-        output_word($data,$item['item_name']);
-    }
-
-    public function itemList(){
-        $login_user = $this->checkLogin();        
-        $items  = D("Item")->where("uid = '$login_user[uid]' ")->select();
-        $items = $items ? $items : array();
-        $this->sendResult($items);
     }
 
     public function setting(){

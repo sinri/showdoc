@@ -58,18 +58,29 @@ body{
     font-size: 8px;
     color: #959595;
 }
-
+	
+pre ol{
+  list-style: none;
+}
+	
+.markdown-body pre {
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+.hljs{
+  background-color: #f7f7f9;
+}
 </style>
 
 <div id="header"></div>
 <div class="container doc-container">
    <div class="doc-title-box">
     	<span id="doc-title-span" class="dn"></span>
-    	<h3 id="doc-title">{$page.page_title}</h3>
+    	<h3 id="doc-title"></h3>
   </div>
   <div id="doc-body" >
 
-	<div id="page_md_content" ><textarea style="display:none;">{$page.page_md_content}</textarea></div>
+	<div id="page_md_content" ><textarea style="display:none;"></textarea></div>
 
   	</textarea>
   </div>
@@ -81,9 +92,10 @@ body{
     </if>
   </div>
 
-
+<input type="hidden" id="page_id" value="{$page_id}"> 
  <include file="Common/footer" />
- <script src="//cdn.staticfile.org/highlight.js/9.0.0/highlight.min.js"></script> 
+ <script src="__PUBLIC__/js/xss.min.js"></script>
+ <script src="__PUBLIC__/highlight/highlight.min.js"></script>
  <script src="__PUBLIC__/editor.md/lib/marked.min.js"></script>
  <script src="__PUBLIC__/editor.md/lib/prettify.min.js"></script>
  <script src="__PUBLIC__/editor.md/lib/flowchart.min.js"></script>
@@ -91,11 +103,11 @@ body{
  <script src="__PUBLIC__/editor.md/lib/underscore.min.js"></script>
  <script src="__PUBLIC__/editor.md/lib/sequence-diagram.min.js"></script>
  <script src="__PUBLIC__/editor.md/lib/jquery.flowchart.min.js"></script>
- <script src="__PUBLIC__/editor.md/editormd.min.js"></script>
+ <script src="__PUBLIC__/editor.md/editormd.js"></script>
  <script src="__PUBLIC__/js/jquery.goup.min.js"></script>
  <script src="__PUBLIC__/lightbox/js/lightbox.js?a=abc"></script>
 
-<script src="__PUBLIC__/js/page/index.js?a=ab"></script>
+<script src="__PUBLIC__/js/page/index.js?a=ab1"></script>
 <script type="text/javascript">
 $(function(){
     //增加返回顶部按钮

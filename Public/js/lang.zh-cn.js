@@ -14,7 +14,8 @@ lang["delete_fail"] = "删除失败！";
 
 //item
 lang["back_to_top"] = "回到顶部";
-
+lang["new_item"] = "新建项目";
+lang["add_an_item"] = "新建一个新的项目";
 
 //page/edite
 lang["params"] = "参数名";
@@ -32,7 +33,7 @@ lang["templ_title"] = "模板标题";
 lang["operation"] = "操作";
 lang["use_this_template"] = "插入此模板";
 lang["delete_this_template"] = "删除模板";
-lang["no_templ_msg"] = "<p><br>你尚未保存过任何模板。<br>你可以在编辑页面时，在“保存”按钮右边点击，在下来菜单中选择“另存为模板”。<br>把页面内容保存为模板后，你下次新建或者编辑页面时便可以使用你之前保存的模板</p>";
+lang["no_templ_msg"] = "你尚未保存过任何模板。你可以在编辑页面时，在“保存”按钮右边点击，在下拉菜单中选择“另存为模板”。把页面内容保存为模板后，你下次新建或者编辑页面时便可以使用你之前保存的模板";
 lang["add_page_comments_msg"] = "请输入页面注释内容。可以填写你对页面的修改注释或者其它注释。添加后，在页面的历史版本处会显示每一个页面版本的注释，方便你查阅、追踪页面的修改";
 
 

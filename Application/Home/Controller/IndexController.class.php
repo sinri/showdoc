@@ -3,6 +3,11 @@ namespace Home\Controller;
 use Think\Controller;
 class IndexController extends BaseController {
     public function index0(){
+        $tmp = @file_get_contents('./Application/Common/Conf/config.php');
+        if (strstr($tmp, "showdoc not install")) {
+            header("location:./install");
+            exit();
+        }
     	$this->checkLogin(false);
     	$login_user = session("login_user");
     	$this->assign("login_user" ,$login_user);
@@ -23,6 +28,11 @@ class IndexController extends BaseController {
         $this->display();
     }
     public function index(){
+        $tmp = @file_get_contents('./Application/Common/Conf/config.php');
+        if (strstr($tmp, "showdoc not install")) {
+            header("location:./install");
+            exit();
+        }
         $this->checkLogin(false);
         $login_user = session("login_user");
         $this->assign("login_user" ,$login_user);

@@ -10,16 +10,25 @@ $(function(){
 
   function getCatList(){
       $.get(
-        "?s=home/catalog/catList",
+        DocConfig.server+"/api/catalog/catList",
         { "item_id": item_id },
         function(data){
-          $("#show-cat").html('');
+          $("#show-second-cat").html('');
+          $("#show-third-cat").html('');
           if (data.error_code == 0) {
             json = data.data;
             console.log(json);
             for (var i = 0; i < json.length; i++) {
-                cat_html ='<a class="badge badge-info single-cat " href="?s=home/catalog/edit&cat_id='+json[i].cat_id+'&item_id='+json[i].item_id+'">'+json[i].cat_name+'&nbsp;<i class="icon-edit"></i></a>';
-                $("#show-cat").append(cat_html);
+                if (json[i].level == 2  ) {
+                  cat_html ='<a class="badge badge-info single-cat " href="?s=home/catalog/edit&cat_id='+json[i].cat_id+'&item_id='+json[i].item_id+'">'+json[i].cat_name+'&nbsp;<i class="icon-edit"></i></a>';
+                  $("#show-second-cat").append(cat_html);
+                };
+
+                if (json[i].level == 3  ) {
+                  cat_html ='<a class="badge badge-info single-cat " href="?s=home/catalog/edit&cat_id='+json[i].cat_id+'&item_id='+json[i].item_id+'">'+json[i].cat_name+'&nbsp;<i class="icon-edit"></i></a>';
+                  $("#show-third-cat").append(cat_html);
+                };
+
             };
 
 
@@ -38,7 +47,7 @@ $(function(){
     var default_parent_cat_id = $("#default_parent_cat_id").val();
     var item_id = $("#item_id").val();
     $.get(
-      "?s=home/catalog/secondCatList", 
+      DocConfig.server+"/api/catalog/secondCatList", 
       {"item_id": item_id},
       function(data) {
         $("#parent_cat_id").html('<OPTION value="0">'+lang["none"]+'</OPTION>');
@@ -70,7 +79,7 @@ $(function(){
       var cat_id = $("#cat_id").val();
       var parent_cat_id = $("#parent_cat_id").val();
       $.post(
-        "?s=home/catalog/save",
+        DocConfig.server+"/api/catalog/save",
         {"cat_name": cat_name , "s_number": s_number , "item_id": item_id , "cat_id": cat_id, "parent_cat_id": parent_cat_id  },
         function(data){
           if (data.error_code == 0) {
@@ -82,7 +91,7 @@ $(function(){
             secondCatList();
             //alert(lang["save_success"]);
           }else{
-            alert(lang["save_fail"]);
+            $.alert(lang["save_fail"]);
           }
           getCatList();
         },
@@ -94,11 +103,11 @@ $(function(){
 
   //删除目录
   $("#delete-cat").click(function(){
-    if(confirm(lang["confirm_to_delete"])){
+    $.confirm(lang["confirm_to_delete"],{},function(){
         var cat_id = $("#cat_id").val();
         if (cat_id > 0 ) {
             $.post(
-                "?s=home/catalog/delete",
+                DocConfig.server+"/api/catalog/delete",
                 { "cat_id": cat_id  },
                 function(data){
                   if (data.error_code == 0) {
@@ -106,9 +115,9 @@ $(function(){
                     window.location.href="?s=home/catalog/edit&item_id="+item_id;
                   }else{
                     if (data.error_message) {
-                      alert(data.error_message);
+                      $.alert(data.error_message);
                     }else{
-                      alert(lang["delete_fail"]);
+                      $.alert(lang["delete_fail"]);
                     }
                     
                   }
@@ -116,7 +125,7 @@ $(function(){
                 "json"
               );
         }
-    }
+      });
 
       return false;
   })
