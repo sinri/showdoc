@@ -165,12 +165,8 @@ class UserController extends BaseController {
 	private function verifyWithLeqeeAA($username,$password,&$error=''){
 		$url=C("AA_URL");
 		$fields=array(
-			"act"=>"validate_login",
-			"data"=>array(
-				'username'=>$username,
-				'up_checksum'=>md5($username.'#'.md5($password)),
-				'ip'=>'',
-			)
+            'username'=>$username,
+            'up_checksum'=>md5($username.'#'.md5($password))
 		);
 
 		$ch = curl_init();
@@ -181,15 +177,9 @@ class UserController extends BaseController {
 		));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-		// curl_setopt($ch, CURLOPT_COOKIE, implode(';', $cookies_items));
 		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,false);
-
-		if($method=='PUT'){
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-		}elseif($method=='DELETE'){
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-		}
 
 		$data = curl_exec($ch);
 		curl_close($ch);
@@ -200,8 +190,8 @@ class UserController extends BaseController {
 				$error='RESPONSE cannot be parsed into standard JSON.';
 				return false;
 			}
-			if(!isset($data['result'])){
-				$error='RESPONSE has not RESULT field.';
+			if(!isset($data['code'])){
+				$error='RESPONSE has not code field.';
 				return false;
 			}
 		}else{
@@ -209,7 +199,7 @@ class UserController extends BaseController {
 			return false;
 		}
 
-		if($data['result']==='OK'){
+		if($data['code']==='OK'){
 			return true;
 		}
 		if(isset($data['data'])){
