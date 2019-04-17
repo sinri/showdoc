@@ -1,11 +1,14 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
 class UserController extends BaseController {
 
-
+    public function register()
+    {
+        $this->message('因为安全和管理方面的问题，ShowDoc已经不再被支持，因此不再支持新用户的注册，请使用OC的章鱼文档。');
+    }
 	//注册
-	public function register(){
+    public function register_backup()
+    {
 		if (!IS_POST) {
 			$this->assign('CloseVerify',C('CloseVerify'));
 			$this->display ();
